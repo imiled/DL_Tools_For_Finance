@@ -1,5 +1,12 @@
 tensorflow
 versioneer
+#
+panda
+
+#for data recuperation from website
+yfinance
+quandl
+investpy
 
 # For applications handling images in Cloud ML Engine
 Pillow
