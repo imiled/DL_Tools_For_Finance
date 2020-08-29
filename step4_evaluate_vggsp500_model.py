@@ -3,7 +3,16 @@ from keras import backend as K
 from keras.preprocessing.image import ImageDataGenerator
 from sklearn.metrics import classification_report, confusion_matrix
 
-#########
+'''
+Here we have a trained model model/vggforsp500.h5 and datas for testing 
+datas/X_test_image.csv
+datas/Y_test_StateClass_image.csv
+datas/Y_test_FutPredict_image.csv
+
+'''
+
+trained_model_path='model/vggforsp500.h5'
+
 #recuperation of testing datas and organising it 
 X_test_image=pd.read_csv('datas/X_test_image.csv')
 Y_test_StateClass_image=pd.read_csv('datas/Y_test_StateClass_image.csv')
@@ -31,21 +40,39 @@ for i in range(nb_test):
 y_test=np.array(Y_test_StateClass_image)
 #y_test=np.array(Y_test_FutPredict_image)
 
+#In our example we need to y into categorical as it has 6 categories
+nb_classes=6
+y_test = np_utils.to_categorical(y_test, nb_classes)
+
 ############
 #recuperation of model
-vggsp500model = load_model('model/vggforsp500.h5')
+vggsp500model = load_model(trained_model_path)
 
 #Evaluate the model on the test data
 score  = vggsp500model.evaluate(x_test, y_test)
 
+
+Y_pred = vggsp500model.predict(x_test)
+y_pred = np.argmax(Y_pred, axis=1)
+#y= np.argmax(y_test)
+y=y_test
+print('Confusion Matrix')
+
+target_state = ['SS', 'SN', 'N','NB','BB']
+def statetostring(x):
+  return target_state[int(x)]
+sY_pred=[statetostring(i) for i in y_pred]
+sY_real=[statetostring(i) for i in y]
+
+#matrice  de confusion
+mat=confusion_matrix(sY_real, sY_pred, normalize='true', labels=target_state)
+df_confmat=pd.DataFrame(mat,index=target_state, columns=target_state)
+
 #Accuracy on test data
 print('Accuracy on the Test Images: ', score[1])
+#matrice  de confusion
+print(df_confmat)
 
-Y_pred = vggsp500model.predict_generator(x_test)
-y_pred = np.argmax(Y_pred, axis=1)
-
-print('Confusion Matrix')
-print(confusion_matrix(validation_generator.classes, y_pred))
-print('Classification Report')
-target_names = ['Cats', 'Dogs', 'Horse']
-print(classification_report(validation_generator.classes, y_pred, target_names=target_names))
+# Classification report
+print('classification report')
+print(classification_report(sY_real, sY_pred, target_names=target_state))
