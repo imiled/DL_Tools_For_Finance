@@ -57,5 +57,13 @@ history = transfer_model.fit(x_train, y_train, \
                               validation_split=0.2, verbose=1, shuffle=True)
 
 # Saving themodel
-model.save('model/vggforsp500.h5')
+transfer_model.save('model/vggforsp500.h5')
+
+new_model = keras.models.load_model('path_to_my_model.h5')
+
+#Evaluate the model on the test data
+score  = new_model.evaluate(x_test, y_test)
+
+#Accuracy on test data
+print('Accuracy on the Test Images: ', score[1])
 
