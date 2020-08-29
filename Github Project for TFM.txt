@@ -1,5 +1,0 @@
-https://github.com/imiled/cloudml-samples
-
-https://github.com/imiled/kschool-challenge-dl
-
-https://github.com/imiled/Using-Deep-Learning-Neural-Networks-and-Candlestick-Chart-Representation-to-Predict-Stock-Market
