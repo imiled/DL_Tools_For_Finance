@@ -311,12 +311,24 @@ sp500 = pdr.get_data_yahoo('^GSPC',
                            start,
                              end)
 
-sp500.head()
+#generate the dataset it can take 3 - 4 hours
+testsp500=(sp500['Close'])[:]
+(X_train_image, Y_train_StateClass_image, Y_train_FutPredict_image) , (X_test_image, Y_test_StateClass_image, Y_test_FutPredict_image) = setup_input_NN_image(testsp500)
 
-#Example of image returned
-fig=plt.figure()
-ax1=fig.add_subplot(111)
-ax1.plot((sp500['Close']).iloc[15:25])
-plot_img_np = get_img_from_fig(fig)
+#copy the datafrae dataset in csv format to be used after
+dateTimeObj = datetime.now()
+timeStr = timeObj.strftime("%Y_%m_%d_%H_%M_%S_%f")
+filecsv_name_and ='df_table_image_tocsv'+timestr+'.csv'
 
-print("the size of the mage returned is ", plot_img_np.shape)
+df_table_tocsv=pd.concat([X_train_image,Y_train_StateClass_image,Y_train_FutPredict_image, X_test_image,Y_test_StateClass_image,Y_test_FutPredict_image],axis=1)
+df_table_tocsv.to_csv(filecsv_name)
+
+#modify dataset to np array for input to NN
+
+x_test=change_X_df__nparray_image(X_train_image)
+y_train_state=np.array(Y_train_StateClass_image)
+y_train_value=np.array(Y_train_FutPredict_image)
+
+x_test=change_X_df__nparray_image(X_test_image)
+y_test_state=np.array(Y_train_StateClass_image)
+y_test_value=np.array(Y_train_FutPredict_image)
