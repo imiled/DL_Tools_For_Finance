@@ -1,8 +1,9 @@
 import numpy as np
+from sklearn.metrics import classification_report, confusion_matrix
+from keras.utils import np_utils
+from keras.models import load_model
 from keras import backend as K
 from keras.preprocessing.image import ImageDataGenerator
-from sklearn.metrics import classification_report, confusion_matrix
-
 
 '''
 Here we have a trained model model/vggforsp500.h5 and datas for testing 
@@ -49,8 +50,8 @@ Y_test_FutPredict_image=Y_test_FutPredict_image.set_index("Date")
 
 #modify dataset to np array for input to NN
 x_test=change_X_df__nparray_image(X_test_image)
-y_test_state=np.array(Y_train_StateClass_image)
-y_test_value=np.array(Y_train_FutPredict_image)
+y_test_state=np.array(Y_test_StateClass_image)
+y_test_value=np.array(Y_test_FutPredict_image)
 
 ##Setting up xtest and ytest
 #Here we focus on predicting the future state Y_train_StateClass_image
@@ -66,25 +67,27 @@ y_test=np.array(Y_test_StateClass_image)
 
 #In our example we need to y into categorical as it has 6 categories
 nb_classes=6
-y_test = np_utils.to_categorical(y_test, nb_classes)
-
+y_test_m = np_utils.to_categorical(y_test, nb_classes)
 ############
 #recuperation of model
 vggsp500model = load_model(trained_model_path)
 
 #Evaluate the model on the test data
-score  = vggsp500model.evaluate(x_test, y_test)
+score  = vggsp500model.evaluate(x_test, y_test_m)
 
 
 Y_pred = vggsp500model.predict(x_test)
 y_pred = np.argmax(Y_pred, axis=1)
-#y= np.argmax(y_test)
-y=y_test
+y= np.argmax(y_test_m,axis=1)
+
+
 print('Confusion Matrix')
 
 target_state = ['SS', 'SN', 'N','NB','BB']
+
 def statetostring(x):
   return target_state[int(x)]
+
 sY_pred=[statetostring(i) for i in y_pred]
 sY_real=[statetostring(i) for i in y]
 
