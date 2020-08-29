@@ -10,8 +10,29 @@ datas/Y_test_StateClass_image.csv
 datas/Y_test_FutPredict_image.csv
 
 '''
-
 trained_model_path='model/vggforsp500.h5'
+
+##
+'''
+UTILITY FUNCTIONS
+to put in another file
+'''
+
+def change_X_df__nparray_image(df_X_train_image_flattened ):
+  '''
+  setup_input_NN_image returns a dataframe of flaten image for x train and xtest
+  then this function will change each date into a nparray list of images with 32, 32, 3 size 
+  '''
+  X_train_image=df_X_train_image_flattened
+  nb_train=len(X_train_image.index)
+  
+  x_train=np.zeros((nb_train,32,32,3))
+  for i in range(nb_train):
+    tmp=np.array(X_train_image.iloc[i])
+    tmp=tmp.reshape(32,32,3)
+    x_train[i]=tmp
+  return x_train
+##
 
 #recuperation of testing datas and organising it 
 X_test_image=pd.read_csv('datas/X_test_image.csv')
