@@ -1,6 +1,9 @@
 tensorflow
+Keras
 versioneer
-#
+
+
+#data frame
 panda
 
 #for data recuperation from website
