@@ -11,6 +11,12 @@ from keras.layers import Dense, Flatten, Conv2D, MaxPooling2D
 from keras.layers import Dropout, Flatten, GlobalAveragePooling2D
 from keras.optimizers import Adam
 
+'''
+we suppose that we have loaded xtrain and ytrain
+This part is based on the Design of the NN
+Her we find the Vgg16 quite usefull
+'''
+
 #Importing the VGG16 model
 from keras.applications.vgg16 import VGG16, preprocess_input
 
