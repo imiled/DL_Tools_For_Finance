@@ -3,6 +3,9 @@ import  numpy as np
 import PIL.Image as Image
 from skimage import io, transform
 
+# Recrea exactamente el mismo modelo solo desde el archivo
+new_model = keras.models.load_model('path_to_my_model.h5')
+
 def recognize(jpg_path, pb_file_path):
     with tf.Graph().as_default():
         output_graph_def = tf.GraphDef()
