@@ -317,23 +317,14 @@ testsp500=(sp500['Close'])[:]
 (X_train_image, Y_train_StateClass_image, Y_train_FutPredict_image) , (X_test_image, Y_test_StateClass_image, Y_test_FutPredict_image) = setup_input_NN_image(testsp500)
 
 #copy the datafrae dataset in csv format to be used after
-dateTimeObj = datetime.now()
-timeStr = dateTimeObj.strftime("%Y_%m_%d_%H_%M_%S_%f")
+#dateTimeObj = datetime.now()
+#timeStr = dateTimeObj.strftime("%Y_%m_%d_%H_%M_%S_%f")
 
-X_train_image.to_csv('X_train_image'+timeStr+'.csv')
-Y_train_StateClass_image.to_csv('Y_train_StateClass_image'+timeStr+'.csv')
-Y_train_FutPredict_image.to_csv('Y_train_FutPredict_image'+timeStr+'.csv')
+X_train_image.to_csv('datas/X_train_image.csv')
+Y_train_StateClass_image.to_csv('datas/Y_train_StateClass_image.csv')
+Y_train_FutPredict_image.to_csv('datas/Y_train_FutPredict_image.csv')
 
-X_test_image.to_csv('X_test_image'+timeStr+'.csv')
-Y_test_StateClass_image.to_csv('Y_test_StateClass_image'+timeStr+'.csv')
-Y_test_FutPredict_image.to_csv('Y_test_FutPredict_image'+timeStr+'.csv')
+X_test_image.to_csv('datas/X_test_image.csv')
+Y_test_StateClass_image.to_csv('datas/Y_test_StateClass_image.csv')
+Y_test_FutPredict_image.to_csv('datas/Y_test_FutPredict_image.csv')
 
-#modify dataset to np array for input to NN
-
-x_test=change_X_df__nparray_image(X_train_image)
-y_train_state=np.array(Y_train_StateClass_image)
-y_train_value=np.array(Y_train_FutPredict_image)
-
-x_test=change_X_df__nparray_image(X_test_image)
-y_test_state=np.array(Y_train_StateClass_image)
-y_test_value=np.array(Y_train_FutPredict_image)
