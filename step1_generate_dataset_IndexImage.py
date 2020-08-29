@@ -319,10 +319,14 @@ testsp500=(sp500['Close'])[:]
 #copy the datafrae dataset in csv format to be used after
 dateTimeObj = datetime.now()
 timeStr = dateTimeObj.strftime("%Y_%m_%d_%H_%M_%S_%f")
-filecsv_name_and ='datas/df_table_image_tocsv'+timeStr+'.csv'
 
-df_table_tocsv=pd.concat([X_train_image,Y_train_StateClass_image,Y_train_FutPredict_image, X_test_image,Y_test_StateClass_image,Y_test_FutPredict_image],axis=1)
-df_table_tocsv.to_csv(filecsv_name)
+X_train_image.to_csv(path_name+'X_train_image'+timeStr+'.csv')
+Y_train_StateClass_image.to_csv(path_name+'Y_train_StateClass_image'+timeStr+'.csv')
+Y_train_FutPredict_image.to_csv(path_name+'Y_train_FutPredict_image'+timeStr+'.csv')
+
+X_test_image.to_csv(path_name+'X_test_image'+timeStr+'.csv')
+Y_test_StateClass_image.to_csv(path_name+'Y_test_StateClass_image'+timeStr+'.csv')
+Y_test_FutPredict_image.to_csv(path_name+'Y_test_FutPredict_image'+timeStr+'.csv')
 
 #modify dataset to np array for input to NN
 
