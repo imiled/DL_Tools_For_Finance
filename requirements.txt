@@ -1,10 +1,15 @@
+#MLDL
 tensorflow
 Keras
 versioneer
 
 
-#data frame
-panda
+#data 
+pandas
+numpy
+scikit-learn
+scipy
+
 
 #for data recuperation from website
 yfinance
@@ -18,3 +23,4 @@ Pillow
 pytest
 pytest-cov
 mock
+
