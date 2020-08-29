@@ -4,18 +4,16 @@ import pandas as pd
 import bs4 as bs
 import requests
 import yfinance as yf
+import fix_yahoo_finance as yf
 import datetime
-import matplotlib.pyplot as plt
-import numpy as np
-from PIL import Image
 import io
 import cv2
-from pandas_datareader import data as pdr
-import fix_yahoo_finance as yf
-import numpy as np
 import skimage
+from PIL import Image
+from pandas_datareader import data as pdr
 from skimage import measure
 from skimage.measure import block_reduce
+from datetime import datetime
 
 '''
 Functions to be used for data generation 
@@ -301,7 +299,10 @@ then this function will change each date into a nparray list of images with 32, 
     x_train[i]=tmp
 return x_train
 
-###Command line here
+
+'''
+COMMAND NOW FOR THE DATSET GENERATION
+'''
 
 #Recuperation from yahoo of sp500 large history
 start = datetime.datetime(1920,1,1)
@@ -317,8 +318,8 @@ testsp500=(sp500['Close'])[:]
 
 #copy the datafrae dataset in csv format to be used after
 dateTimeObj = datetime.now()
-timeStr = timeObj.strftime("%Y_%m_%d_%H_%M_%S_%f")
-filecsv_name_and ='df_table_image_tocsv'+timestr+'.csv'
+timeStr = dateTimeObj.strftime("%Y_%m_%d_%H_%M_%S_%f")
+filecsv_name_and ='datas/df_table_image_tocsv'+timeStr+'.csv'
 
 df_table_tocsv=pd.concat([X_train_image,Y_train_StateClass_image,Y_train_FutPredict_image, X_test_image,Y_test_StateClass_image,Y_test_FutPredict_image],axis=1)
 df_table_tocsv.to_csv(filecsv_name)
