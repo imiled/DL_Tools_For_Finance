@@ -312,8 +312,9 @@ sp500 = pdr.get_data_yahoo('^GSPC',
                            start,
                              end)
 
-#generate the dataset it can take 3 - 4 hours
-testsp500=(sp500['Close'])[:]
+#generate the dataset it can take 6 - 8 hours
+#Need to be optimzed with more time
+testsp500=(sp500['Close'])[1000:2000]
 (X_train_image, Y_train_StateClass_image, Y_train_FutPredict_image) , (X_test_image, Y_test_StateClass_image, Y_test_FutPredict_image) = setup_input_NN_image(testsp500)
 
 #copy the datafrae dataset in csv format to be used after
