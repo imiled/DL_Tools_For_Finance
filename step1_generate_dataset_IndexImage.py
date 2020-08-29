@@ -320,13 +320,13 @@ testsp500=(sp500['Close'])[:]
 dateTimeObj = datetime.now()
 timeStr = dateTimeObj.strftime("%Y_%m_%d_%H_%M_%S_%f")
 
-X_train_image.to_csv(path_name+'X_train_image'+timeStr+'.csv')
-Y_train_StateClass_image.to_csv(path_name+'Y_train_StateClass_image'+timeStr+'.csv')
-Y_train_FutPredict_image.to_csv(path_name+'Y_train_FutPredict_image'+timeStr+'.csv')
+X_train_image.to_csv('X_train_image'+timeStr+'.csv')
+Y_train_StateClass_image.to_csv('Y_train_StateClass_image'+timeStr+'.csv')
+Y_train_FutPredict_image.to_csv('Y_train_FutPredict_image'+timeStr+'.csv')
 
-X_test_image.to_csv(path_name+'X_test_image'+timeStr+'.csv')
-Y_test_StateClass_image.to_csv(path_name+'Y_test_StateClass_image'+timeStr+'.csv')
-Y_test_FutPredict_image.to_csv(path_name+'Y_test_FutPredict_image'+timeStr+'.csv')
+X_test_image.to_csv('X_test_image'+timeStr+'.csv')
+Y_test_StateClass_image.to_csv('Y_test_StateClass_image'+timeStr+'.csv')
+Y_test_FutPredict_image.to_csv('Y_test_FutPredict_image'+timeStr+'.csv')
 
 #modify dataset to np array for input to NN
 
