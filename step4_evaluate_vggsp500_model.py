@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 from sklearn.metrics import classification_report, confusion_matrix
 from keras.utils import np_utils
 from keras.models import load_model
