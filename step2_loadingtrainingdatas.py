@@ -71,6 +71,6 @@ for i in range(nb_train):
   x_train[i]=tmp
 
 y_train=np.array(Y_train_StateClass_image)
-#y_test=np.array(Y_test_FutPredict_image)
+#y_train=np.array(Y_train_FutPredict_image)
 
 
