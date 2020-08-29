@@ -34,9 +34,6 @@ model.summary()
 model.compile(loss='binary_crossentropy', optimizer='adam',
               metrics=['accuracy'])
 
-##getting the datas
-pd.read_csv('datas/df_table_image_tocsv.zip)
-
 ##Fitting the model on the train data and labels.
 model.fit(x_train, y_train, batch_size=32, epochs=10, 
           verbose=1, validation_split=0.2, shuffle=True)
