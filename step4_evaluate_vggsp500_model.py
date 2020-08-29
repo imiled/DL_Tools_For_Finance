@@ -3,6 +3,7 @@ from keras import backend as K
 from keras.preprocessing.image import ImageDataGenerator
 from sklearn.metrics import classification_report, confusion_matrix
 
+
 '''
 Here we have a trained model model/vggforsp500.h5 and datas for testing 
 datas/X_test_image.csv
@@ -10,7 +11,6 @@ datas/Y_test_StateClass_image.csv
 datas/Y_test_FutPredict_image.csv
 
 '''
-trained_model_path='model/vggforsp500.h5'
 
 ##
 '''
@@ -33,6 +33,9 @@ def change_X_df__nparray_image(df_X_train_image_flattened ):
     x_train[i]=tmp
   return x_train
 ##
+
+
+trained_model_path='model/vggforsp500.h5'
 
 #recuperation of testing datas and organising it 
 X_test_image=pd.read_csv('datas/X_test_image.csv')
