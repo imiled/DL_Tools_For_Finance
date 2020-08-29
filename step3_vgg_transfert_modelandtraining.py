@@ -48,10 +48,6 @@ transfer_model.compile(loss='categorical_crossentropy', optimizer='rmsprop',
               metrics=['accuracy'])
 
 ##Fitting the model on the train data and labels.
-##we choose here the stat to predict
-model.fit(x_train, y_train_state, batch_size=32, epochs=10, 
-          verbose=1, validation_split=0.2, shuffle=True)
-
 history = transfer_model.fit(x_train, y_train, \
                               batch_size=batch_size, epochs=epochs, \
                               validation_split=0.2, verbose=1, shuffle=True)
@@ -59,11 +55,4 @@ history = transfer_model.fit(x_train, y_train, \
 # Saving themodel
 transfer_model.save('model/vggforsp500.h5')
 
-new_model = keras.models.load_model('path_to_my_model.h5')
-
-#Evaluate the model on the test data
-score  = new_model.evaluate(x_test, y_test)
-
-#Accuracy on test data
-print('Accuracy on the Test Images: ', score[1])
 
