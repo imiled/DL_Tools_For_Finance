@@ -1,8 +1,8 @@
 # TFM Introduction Deep Learning Tools For Finance 
 ## Application to Transfert Learning for Technical analysis
 
-This project contains the deep learning tools putting in practice to financial area:
-There is a notebook FinanceData_ML_Clean.ipynb which is my personal ongoing walkthrough for Deep learning application in Finance.
+This project contains the deep learning tools putting in practice to financial area. There is a notebook FinanceData_ML_Clean.ipynb which is my personal ongoing walkthrough for Deep learning application in Finance. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://github.com/imiled/DL_Tools_For_Finance/blob/master/MainNotebook/FinanceData_ML_Clean.ipynb)
+
 The notebook is not complete so far like RL and some part need more fine tunning as the training of the models or optimisation of the code. But the objective of this workbook is to use it as a reference methodology for more specific studies and update it when one of the specific problem is completed. 
 
 At the same time for this TFM, I focused  on applying CNN Transfert learning to an image of the sp500 technical graph image. The objective is to get a complete dataset a trained model based on vgg16 infrastucture, the model evaluation and last point for any image of a stock evolution we have a tool that tell us if we would rather buy or sell.
@@ -13,10 +13,9 @@ In this project I have chosen to present 5 steps which can be taken separately a
 
 I worked on it in google colab you can see it in the following file :
 
-```
-Transfert_Learning_Vgg16forSP500.ipynb
-https://colab.research.google.com/github/imiled/DL_Tools_For_Finance/blob/master/Transfert_Learning_Vgg16forSP500.ipynb
-```
+Transfert_Learning_Vgg16forSP500.ipynb [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/imiled/DL_Tools_For_Finance/blob/master/Transfert_Learning_Vgg16forSP500.ipynb)
+
+
 But it can be launched in local also using the command to get the specific packages :
 ```
 pip install -r requirement.txt
