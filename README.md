@@ -55,7 +55,7 @@ Please note that:
 
 ## Loading training datas and Build up of the VGGsp500 model and train
 ```
-python3 step2_loadingtrainingdatas.py 
+python3 step2_loadingtrainingdatas_vgg_transfert_modelandtraining.py
 ```
 
 This part is for loading the training dataset as it is better to generate it once for all in step 1 because of it time consuming process.
@@ -70,14 +70,14 @@ We have 14.7M parameters and 66k trainable parametres. the size of training inpu
 
 ## Evaluate the VGGsp500
 ```
-python3 step4_evaluate_vggsp500_model.py
+python3 step3_evaluate_vggsp500_model.py
 ```
 This part will evaluate the model with the testing dataset that we generated in first step.
 We show the accuracy, the confusion matrix and the classification report 
 
 ## Guess future market state from random image
 ```
-python3 step5_guess_future_marketstate_from_image.py
+python3 step4_guess_future_marketstate_from_image.py
 ```
 
 Take an image of an historical graph from a market webpage like investing.com, crop the image to only fit the graph and save it to the ImageM/ folder with name image1.PNG or you can change the value of image_path to the link you need.
