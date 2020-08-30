@@ -9,12 +9,17 @@ At the same time for this TFM, I focused  on applying CNN Transfert learning to 
 I consider here a problem of behaviour finance as most investor look throughly at those graph more than fondamental numbers and those graph can be interpretated on small horizon (minutes) or long (years) to get an estimation of its evolution. The humain will process this information deeply and the consequence of this process is the behaviour of stock market. Benjamin Graham in the "Intelligent Investor" - written in 1949 and considered as the bible of value investing - introduce the allegory of Mr. Market, meant to personify the irrationality and group-think of the stock market. As of august 2020, the value of some stocks are higher than the economy of France and Germany and small company (Tesla) are bought at a price quite difficult to apprehend in terms of valuation fondamental and comparison to established company in Europe (Volkswagen). That is true, that our brain is set to always find an explanation but in this approach we' ll try to apprehend the impact of price evolution to make Mr Market more greedy or fearful.
 
 In this project I have chosen to present 5 steps which can be taken separately as we can load save datas or models. 
-I worked on it in google colab you can see it in the followinfile 
+
+I worked on it in google colab you can see it in the following file :
+
+
 
 But it can be launched in local also using the command to get the specific packages :
+
 pip install requirement.txt
 
 or using this Docker command to get the appropiate environment:
+
 xxxx
 
 Now for each step can be taken independently as we are saving loading datas and model at each time.
@@ -24,10 +29,14 @@ execute: python3 step1_generate_dataset_IndexImage.py
 
 In this part we are generating the training and testing dataset.
 First we download the historical prices of the sp500 from 1927 to 31 July 2020 and built the image of 15 days historical graph also we get the 5 days future price evolution of the sp500. 
-From the future price evolution, we calculate a future state which can be splitted in 6 classes : Sell-Sell | Sell- Neutral | Neutral | Neutral -Buy | Buy -Buy (and the Error class)
+From the future price evolution, we calculate a future state which can be splitted in 6 classes :
+
+Sell-Sell | Sell- Neutral | Neutral | Neutral -Buy | Buy -Buy (and the Error class)
 
 The objective is to get the following files which represent a dataframe in the data/ repertory:
+
 X_train_image.csv , X_test_image.csv a 3072 column time serie dataframe  of the image (32 x 32 x3) of the sp500 closing price 
+
 Y_test_StateClass.csv, Y_train_StateClass.csv a 1 column time serie dataframe of the future state value betwwen -1 to 4
 
 We generate also the following files but we won´t use it in this project - more fore RNN & price prediction - Y_test_FutPredict.csv Y_train_FutPredict.csv
