@@ -20,7 +20,8 @@ xxxx
 Now for each step can be taken independently as we are saving loading datas and model at each time.
 
 ## Generate Dataset of the Image and the Future maket state
-file: step1_generate_dataset_IndexImage.py
+execute: python3 step1_generate_dataset_IndexImage.py
+
 In this part we are generating the training and testing dataset.
 First we download the historical prices of the sp500 from 1927 to 31 July 2020 and built the image of 15 days historical graph also we get the 5 days future price evolution of the sp500. 
 From the future price evolution, we calculate a future state which can be splitted in 6 classes : Sell-Sell | Sell- Neutral | Neutral | Neutral -Buy | Buy -Buy (and the Error class)
@@ -35,9 +36,11 @@ NB:
 1. we can increase the dataset taking into account the stock evolution or other indices
 2. The calulation of the dataset can take more than 6 hours of calulation as the code is not optimized so far 
 
-##
-step2_loadingtrainingdatas.py 
+## Loading training datas
+execute: python3 step2_loadingtrainingdatas.py 
+This part is for loading the training dataset as it is better to generate it once for all in step 1 because of it time consuming process.
 
+This part also configure back the X_train datas from dataframe based on columns to a (32,32,3) np. array for the input of the model 
 
 # step3_vgg_transfert_modelandtraining.py
 
