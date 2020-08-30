@@ -43,9 +43,9 @@ We generate also the following files but we won´t use it in this project - more
 
 the testing and training time serie dataset are shuffled by the date of reference with a split number of 0.8
 
-NB: 
-1. we can increase the dataset taking into account the stock evolution or other indices
-2. The calulation of the dataset can take more than 6 hours of calulation as the code is not optimized so far 
+Please note that: 
+1. We can increase the dataset taking into account the evolution very liquid stocks or other indices as long as we have very high the liquidity and number of participants 
+2. The calculation of the dataset can take more than 6 hours of calulation as the code is not optimized so far, we can quickly implement parallel computing and rapid image setup instead of going through for this task an
 
 ## Loading training datas
 execute: python3 step2_loadingtrainingdatas.py 
@@ -61,10 +61,10 @@ we use for this example a categorical_crossentropy loss and rmsprop optimizer.
 This part can be fined tuned for each financial index or stock index (layers, optimmizer, metrics, dropout) but in this case we introduced a simplier case.
 We train and save the model, please refer to XX to see the convergence of the model.
 
-
 ## Evaluate the VGGsp500
 execute: python3 step4_evaluate_vggsp500_model.py
-This part will evaluate the model with the testing dataset 
+This part will evaluate the model with the testing dataset that we generated in first step.
+We show the accuracy, the confusion matrix and the classification report 
 
 ## Guess future market state from random image
 execute: step5_guess_future_marketstate_from_image.py
@@ -72,110 +72,3 @@ Take an image of an historical graph from a market webpage like investing.com  a
 
 This execution tell us which market state in the future is the best representative.
 
-
-With this template, you will be able to:
-
-* Use Python with the usual libraries for data science
-* Write tests for your app using the provided examples
-
-This README.md is full of details for an easier reuse of this
-template. But beware, **erase its contents and include yours before
-publishing your project**.
-
-## Dependencies
-
-The only strong requirement is that you this template is written for
-**Python 3**. You can adapt it to Python 2 with minimal changes (most
-likely, changing the print statements through the code)
-
-## Utilities and common libraries
-
-This template imports **tensorflow**. The provided scripts will install these
-dependencies if they are missing in your system.
-
-If you need to include additional dependencies, **please add new lines to the
-file `requirements.txt`**, with the package name.
-
-You can include any package available in the PyPi.
-
-## Directories structure
-
-In the top dir, you will find the following two files:
-
-- `README.md`: This file will be shown as the default page in the
-  Overview of your project in Bitbucket or Stash. Use it as an example
-  of a README for your project.
-- `setup.py`: The main `setuptools`script for your project. You should
-  edit it to change the common properties of your project. If you want
-  to change the version of your project, edit `src/__init__.py` instead.
-- `requirements.txt`: Dependencies that must be installed for your
-  project to work. Include one package name per line. The packages
-  should be available in the official PyPi repository
-
-There is also a hidden file:
-
-- `.gitignore`: Excludes many temporary and generated files from Git.
-
-The template has the following folders:
-
-- `trainer`: Directory for the sources. This directory is a Python
-  package, with the following contents:
-    - `__init__.py`: Edit this file **to update the version** the
-      version of your project, and for any other tasks common to your
-      package
-    - `task.py`: A simple Python script with a main function,
-      and some small functions (intended to showcase how to write a
-      test).
-- `tests`: This directory contains the tests included in this template
-  as examples. Use the files included here as templates to write your
-  own tests.
-  
-## A note on testing
-
-This template is using [PyTest](http://pytest.org) for the tests, with
-some additional plugins for coverage calculations.
-
-To launch the tests, PyTest offers different options. **The recommended way to
-trigger the unit tests is by running the following command**:
-
-```shell
-$ python setup.py test
-```
-
-You can also use the following options:
-
-* The `pytest` script
-* Calling it as a module in the top dir of your project (this is equivalent to
-  running `python setup.py test`)
-
-We **discourage the use of the `pytest` script for testing**. If you
-use this script, the top dir of your project is not included in the
-path, and you need to explicitly add it to your test. Only after that
-you are able to import your own modules for the tests.
-
-For instance, if your module is called `src`, and you are using the
-`pytest` script, you will need to do something like the following:
-
-``` python
-import os
-import sys
-sys.path.insert(0, os.path.pardir)
-from trainer import ...
-```
-
-This is a violation of the Python PEP8 style guide, because you should always 
-group all the `import` statements together. But this is impossible for
-your `src` module unless you add it to the path.
-
-This problem does not exist if you use PyTest as a module. This is the
-approach used in this template. In that case, the module `src` is
-simply available in the path, you don't need to tweak any system
-path. When using `python -m pytest`, the previous code would become:
-
-```python
-from trainer import ...
-```
-
-So for testing your project in local, please do `python -m pytest`
-rather than using `pytest`. In the CI jobs, the default pipeline
-scripts are using `python -m pytest`.
