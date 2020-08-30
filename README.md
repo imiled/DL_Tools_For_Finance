@@ -1,7 +1,47 @@
-# Template for Python projects
+# TFM Introduction Deep Learning Tools For Finance and application to Transfert Learning for Technical aanlysis
 
-This project contains a template for Python apps that implement training and
-inference of Machine Learning models. 
+This project contains the deep learning tools putting in practice to financial area:
+There is a notebook FinanceData_ML_Clean.ipynb which is my personal ongoing walkthrough for Deep learning application in Finance.
+The notebook is not complete so far like RL and some part need more fine tunning as the training of the models or optimisation of the code. But the objective of this workbook is to use it as a reference methodology for more specific studies and update it when one of the specific problem is completed. 
+
+At the same time for this TFM, I focused  on applying CNN Transfert learning to an image of the sp500 technical graph image. The objective is to get a complete dataset a trained model based on vgg16 infrastucture, the model evaluation and last point for any image of a stock evolution we have a tool that tell us if we would rather  buy or sell.
+I consider here a problem of behaviour finance as most investor look throughly at those graph more than fondamental numbers and those graph can be interpretated on small horizon (minutes) or long (years) to get an estimation of its evolution. The humain will process this information deeply and the consequence of this process is the behaviour of stock market. Benjamin Graham in the "Intelligent Investor" - written in 1949 and considered as the bible of value investing - introduce the allegory of Mr. Market, meant to personify the irrationality and group-think of the stock market. As of august 2020, the value of some stocks are higher than the economy of France and Germany and small company (Tesla) are bought at a price quite difficult to apprehend in terms of valuation fondamental and comparison to established company in Europe (Volkswagen). That is true, that our brain is set to always find an explanation but in this approach we' ll try to apprehend the impact of price evolution to make Mr Market more greedy or fearful.
+
+In this project I have chosen to present 5 steps which can be taken separately as we can load save datas or models. I worked on it in google colab. But it can be launched in local using the command to get the specific packages :
+pip install requirement.txt
+
+Now for each step can be taken independently as we are saving loading datas and model at each time.
+# step1_generate_dataset_IndexImage.py
+In this part we are generating the training and testing dataset.
+First we download the historical prices of the sp500 from 1927 to 31 July 2020 and built the image of 15 days historical graph also we get the 5 days future price evolution of the sp500. 
+From the future price evolution, we calculate a future state which can be splitted in 6 classes : Sell-Sell | Sell- Neutral | Neutral | Neutral -Buy | Buy -Buy (and the Error class)
+
+The objective is to get the following files which represent a dataframe in the data repertory:
+X_test_image.csv a 32 x 32 x 3 dataframe table of the time serie of the image of the sp500 closing price
+X_train_image.csv
+
+Y_test_StateClass.csv
+Y_train_StateClass.csv
+
+We generate also the following files but we won´t use it in this project - more fore RNN & price prediction - Y_test_FutPredict.csv Y_train_FutPredict.csv
+
+NB: 
+1. we can increase the dataset taking into account the stock evolution or other indices
+2. The calulation of the dataset can take more than 6 hours of calulation as the code is not optimized so far 
+
+# step2_loadingtrainingdatas.py 
+
+
+# step3_vgg_transfert_modelandtraining.py
+
+
+# step4_evaluate_vggsp500_model.py
+
+
+# step5_guess_future_marketstate_from_image.py
+
+
+
 
 With this template, you will be able to:
 
