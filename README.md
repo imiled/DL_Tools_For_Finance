@@ -45,7 +45,7 @@ the testing and training time serie dataset are shuffled by the date of referenc
 
 Please note that: 
 1. We can increase the dataset taking into account the evolution very liquid stocks or other indices as long as we have very high the liquidity and number of participants 
-2. The calculation of the dataset can take more than 6 hours of calulation as the code is not optimized so far, we can quickly implement parallel computing and rapid image setup instead of going through for this task an
+2. The calculation of the dataset can take more than 6 hours of calulation as the code is not optimized so far, we can quickly implement parallel computing and rapid image setup instead of using matplotlib library
 
 ## Loading training datas
 execute: python3 step2_loadingtrainingdatas.py 
