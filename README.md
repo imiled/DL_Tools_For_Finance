@@ -41,6 +41,8 @@ Y_test_StateClass.csv, Y_train_StateClass.csv a 1 column time serie dataframe of
 
 We generate also the following files but we won´t use it in this project - more fore RNN & price prediction - Y_test_FutPredict.csv Y_train_FutPredict.csv
 
+the testing and training time serie dataset are shuffled by the date of reference with a split number of 0.8
+
 NB: 
 1. we can increase the dataset taking into account the stock evolution or other indices
 2. The calulation of the dataset can take more than 6 hours of calulation as the code is not optimized so far 
@@ -51,15 +53,24 @@ This part is for loading the training dataset as it is better to generate it onc
 
 This part also configure back the X_train datas from dataframe based on columns to a (32,32,3) np. array for the input of the model 
 
-# step3_vgg_transfert_modelandtraining.py
+## Build up of the VGGsp500 model and train
+execute: python3 step3_vgg_transfert_modelandtraining.py
+In this part we suppose that we have the training dataset taken from step 2.
+We use a Transfert model for vgg16 and some other layers.
+we use for this example a categorical_crossentropy loss and rmsprop optimizer.
+This part can be fined tuned for each financial index or stock index (layers, optimmizer, metrics, dropout) but in this case we introduced a simplier case.
+We train and save the model, please refer to XX to see the convergence of the model.
 
 
-# step4_evaluate_vggsp500_model.py
+## Evaluate the VGGsp500
+execute: python3 step4_evaluate_vggsp500_model.py
+This part will evaluate the model with the testing dataset 
 
+## Guess future market state from random image
+execute: step5_guess_future_marketstate_from_image.py
+Take an image of an historical graph from a market webpage like investing.com  and save it to the ImageM/ folder with name image1.PNG or you can change the value of image_path to the link you need.
 
-# step5_guess_future_marketstate_from_image.py
-
-
+This execution tell us which market state in the future is the best representative.
 
 
 With this template, you will be able to:
