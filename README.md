@@ -14,7 +14,7 @@ In this project I have chosen to present 5 steps which can be taken separately a
 I worked on it in google colab you can see it in the following file :
 
 ```
-$ Transfert_Learning_Vgg16forSP500.ipynb
+Transfert_Learning_Vgg16forSP500.ipynb
 https://colab.research.google.com/github/imiled/DL_Tools_For_Finance/blob/master/Transfert_Learning_Vgg16forSP500.ipynb
 ```
 But it can be launched in local also using the command to get the specific packages :
@@ -36,16 +36,16 @@ python3 step1_generate_dataset_IndexImage.py
 In this part we are generating the training and testing dataset.
 First we download the historical prices of the sp500 from 1927 to 31 July 2020 and built the image of 15 days historical graph also we get the 5 days future price evolution of the sp500. 
 From the future price evolution, we calculate a future state which can be splitted in 6 classes :
-```
-Sell-Sell | Sell- Neutral | Neutral | Neutral -Buy | Buy -Buy | the Error class
-```
+
+**Sell-Sell | Sell- Neutral | Neutral | Neutral -Buy | Buy -Buy |  Error **
+
 The objective is to get the following files which represent a dataframe in the data/ repertory:
 
-**X_train_image.csv , X_test_image.csv** a 3072 column time serie dataframe  of the image (32 x 32 x3) of the sp500 closing price 
+*X_train_image.csv , X_test_image.csv* a 3072 column time serie dataframe  of the image (32 x 32 x3) of the sp500 closing price 
 
-**Y_test_StateClass.csv, Y_train_StateClass.csv** a 1 column time serie dataframe of the future state value betwwen -1 to 4
+*Y_test_StateClass.csv, Y_train_StateClass.csv* a 1 column time serie dataframe of the future state value betwwen -1 to 4
 
-We generate also the following files but we won´t use it in this project - more fore RNN & price prediction - **Y_test_FutPredict.csv Y_train_FutPredict.csv**
+We generate also the following files but we won´t use it in this project - more fore RNN & price prediction - *Y_test_FutPredict.csv Y_train_FutPredict.csv*
 
 the testing and training time serie dataset are shuffled by the date of reference with a split number of 0.8
 
