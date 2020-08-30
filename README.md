@@ -61,6 +61,8 @@ we use for this example a categorical_crossentropy loss and rmsprop optimizer.
 This part can be fined tuned for each financial index or stock index (layers, optimmizer, metrics, dropout) but in this case we introduced a simplier case.
 We train and save the model, please refer to XX to see the convergence of the model.
 
+We have 14.7M parameters and 66k trainable parametres. the size of training input is 571M only for the image not including rolling volatility, moving average etc
+
 ## Evaluate the VGGsp500
 execute: python3 step4_evaluate_vggsp500_model.py
 This part will evaluate the model with the testing dataset that we generated in first step.
