@@ -9,6 +9,7 @@ from keras import optimizers
 from keras.layers import Dense, Flatten, Conv2D, MaxPooling2D
 from keras.layers import Dropout, Flatten, GlobalAveragePooling2D
 from keras.optimizers import Adam
+from keras.callbacks import ModelCheckpoint
 
 '''
 PARAMETERS to change so as to improve the training
@@ -18,7 +19,7 @@ PARAMETERS to change so as to improve the training
 #We can modify batch size and epochs to adjust improve the training
 batch_size=32
 epochs=50
-vggsp500loss='categorical_crossentropy  ##https://keras.io/api/losses/
+vggsp500loss='categorical_crossentropy'  ##https://keras.io/api/losses/
 vggsp500optimizer='rmsprop'             ##https://keras.io/api/optimizers/
 vggsp500metrics=['accuracy']            ##https://keras.io/api/metrics/
 '''
@@ -122,10 +123,16 @@ transfer_model.summary()
 transfer_model.compile(loss=vggsp500loss, optimizer=vggsp500optimizer,
               metrics=vggsp500metrics)
 
+##Saving the best model for each parameters
+checkpoint = ModelCheckpoint("model/best_model"+vggsp500loss+"_"+vggsp500optimizer+"_"+batch_size.hdf5", \
+                                monitor='loss', verbose=1, \
+                                save_best_only=True, mode='auto', period=1)
+
 ##Fitting the model on the train data and labels.
 history = transfer_model.fit(x_train, y_train, \
                               batch_size=batch_size, epochs=epochs, \
-                              validation_split=0.2, verbose=1, shuffle=True)
+                              validation_split=0.2, verbose=1, shuffle=True, \
+                              callbacks=[checkpoint])
 
 # Saving themodel
 transfer_model.save('model/vggforsp500.h5')
