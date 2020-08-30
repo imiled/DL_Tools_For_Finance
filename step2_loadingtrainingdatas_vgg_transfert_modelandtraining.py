@@ -10,7 +10,17 @@ from keras.layers import Dense, Flatten, Conv2D, MaxPooling2D
 from keras.layers import Dropout, Flatten, GlobalAveragePooling2D
 from keras.optimizers import Adam
 
+'''
+PARAMETERS to change so as to improve the training
 
+'''
+
+#We can modify batch size and epochs to adjust improve the training
+batch_size=32
+epochs=50
+vggsp500loss='categorical_crossentropy  ##https://keras.io/api/losses/
+vggsp500optimizer='rmsprop'             ##https://keras.io/api/optimizers/
+vggsp500metrics=['accuracy']            ##https://keras.io/api/metrics/
 '''
 UTILITY FUNCTIONS
 
@@ -85,9 +95,6 @@ Her we find the Vgg16 quite usefull
 #Importing the VGG16 model
 from keras.applications.vgg16 import VGG16, preprocess_input
 
-#We can modify batch size and epochs to adjust improve the training
-batch_size=32
-epochs=50
 
 #In our example we need to y into categorical as it has 6 categories
 nb_classes=6
@@ -112,8 +119,8 @@ transfer_model.add(Dense(6, activation='softmax'))
 ##Display summary of neural network
 transfer_model.summary()
 
-transfer_model.compile(loss='categorical_crossentropy', optimizer='rmsprop',
-              metrics=['accuracy'])
+transfer_model.compile(loss=vggsp500loss, optimizer=vggsp500optimizer,
+              metrics=vggsp500metrics)
 
 ##Fitting the model on the train data and labels.
 history = transfer_model.fit(x_train, y_train, \
