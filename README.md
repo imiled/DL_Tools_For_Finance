@@ -66,6 +66,7 @@ This part can be fined tuned for each financial index or stock index (layers, op
 We train and save the model, please refer to XX to see the convergence of the model.
 
 We have 14.7M parameters and 66k trainable parametres. the size of training input is 571M only for the image not including rolling volatility, moving average etc
+In the Colab notebook you can see the tensorboard document so as to monitor the convergence of the training. 
 
 ## Evaluate the VGGsp500
 ```
