@@ -12,7 +12,7 @@ In this project I have chosen to present 5 steps which can be taken separately a
 
 I worked on it in google colab you can see it in the following file :
 
-
+Transfert_Learning_Vgg16forSP500.ipynb
 
 But it can be launched in local also using the command to get the specific packages :
 
