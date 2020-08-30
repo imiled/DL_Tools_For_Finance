@@ -37,7 +37,7 @@ In this part we are generating the training and testing dataset.
 First we download the historical prices of the sp500 from 1927 to 31 July 2020 and built the image of 15 days historical graph also we get the 5 days future price evolution of the sp500. 
 From the future price evolution, we calculate a future state which can be splitted in 6 classes :
 
-**Sell-Sell | Sell- Neutral | Neutral | Neutral -Buy | Buy -Buy |  Error **
+**Sell-Sell | Sell- Neutral | Neutral | Neutral -Buy | Buy -Buy |  Error**
 
 The objective is to get the following files which represent a dataframe in the data/ repertory:
 
