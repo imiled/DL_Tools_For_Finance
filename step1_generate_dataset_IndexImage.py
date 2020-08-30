@@ -55,7 +55,7 @@ def build_image(stockindex, idate=10, pastlag=10, futlag=3,nb_dates=1000):
   x_datas=x_datas/255
   return x_datas
   
- '''
+'''
 MAIN FUNCTION OF CLASSIFICATION 
 build y state y fut 
 and x  
