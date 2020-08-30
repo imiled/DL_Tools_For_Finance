@@ -86,7 +86,8 @@ We show the accuracy, the confusion matrix and the classification report
 ```
 python3 step5_guess_future_marketstate_from_image.py
 ```
-Take an image of an historical graph from a market webpage like investing.com  and save it to the ImageM/ folder with name image1.PNG or you can change the value of image_path to the link you need.
+
+Take an image of an historical graph from a market webpage like investing.com, crop the image to only fit the graph and save it to the ImageM/ folder with name image1.PNG or you can change the value of image_path to the link you need.
 
 This execution tell us which market state in the future is the best representative.
 
