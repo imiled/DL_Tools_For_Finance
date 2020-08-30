@@ -9,6 +9,7 @@ import datetime
 import io
 import cv2
 import skimage
+import datetime
 from PIL import Image
 from pandas_datareader import data as pdr
 from skimage import measure
@@ -136,26 +137,24 @@ def build_image_optimfig(fig, stockindex, idate=10, pastlag=10, futlag=3):
   return x_datas
 
 def build_image_df(xdf, past_step,fut_step) :
-'''
-returning a dictionary of time series dataframes to be used in setup_input_NN_image so a to generate 
-Input X Result Y_StateClass, Y_FutPredict
-pastlag as range for the graph
-fut _step the future value lag in time to predict or to check the financial state of the market 
-
-#times series to get information from the stock index value
-'stock_value':the time serie of the index normalised on the whole period
-'moving_average':  time serie of the rolling moving average value of the index for past step image
-"max": time serie of the rolling max  value of the index for past step image
-"min": time serie of the rolling  min value of the index for past step image
-'volatility':  time serie of the rolling  vol value of the index for past step image
-
-        
-'df_x_image': is a time series of flattened (1, ) calculed from images (32, 32, 3) list 
-#I had to flatten it because panda does not create table with this format
-'market_state': future markket state to be predicted time lag is futlag
-'future_value': future value of stock price to predict  time lag is futlag
-future_volatility':  time serie of the future volatility of the index time lag is futlag
-'''
+  '''
+  returning a dictionary of time series dataframes to be used in setup_input_NN_image so a to generate 
+  Input X Result Y_StateClass, Y_FutPredict
+  pastlag as range for the graph
+  fut _step the future value lag in time to predict or to check the financial state of the market 
+  #times series to get information from the stock index value
+  'stock_value':the time serie of the index normalised on the whole period
+  'moving_average':  time serie of the rolling moving average value of the index for past step image
+  "max": time serie of the rolling max  value of the index for past step image
+  "min": time serie of the rolling  min value of the index for past step image
+  'volatility':  time serie of the rolling  vol value of the index for past step image
+          
+  'df_x_image': is a time series of flattened (1, ) calculed from images (32, 32, 3) list 
+  #I had to flatten it because panda does not create table with this format
+  'market_state': future markket state to be predicted time lag is futlag
+  'future_value': future value of stock price to predict  time lag is futlag
+  'future_volatility':  time serie of the future volatility of the index time lag is futlag
+  '''
 
   df_stockvaluecorrected=xdf
   df_stockvaluecorrected, _ = normalise_df_image(df_stockvaluecorrected)
@@ -222,7 +221,6 @@ def build_image_clean(stockindex_ohlcv, ret_image_size=(32,32,3), idate=10, past
   Each absciss pixel is one day
   in ordinate the min value of ohlc shall be 0 (volume is tabled on the third image) 
   in ordinate the max value of ohlc shall be  (volume is tabled on the third image) 
-
   1st image: 32 x32
     based on each day we place the open and close point
     in ordinate int (255 * price /max ohlc)
@@ -233,7 +231,6 @@ def build_image_clean(stockindex_ohlcv, ret_image_size=(32,32,3), idate=10, past
     with 64 for high and 32 for low
   3rd image: 32 x32
     each column value is a equal to int 255* volume of day / volume max period)
-
   '''
   #number of days to consider for translate
   tsindexstock=stockindex_ohlcv.iloc[(idate-pastlag):idate]
@@ -246,15 +243,14 @@ def build_image_clean(stockindex_ohlcv, ret_image_size=(32,32,3), idate=10, past
   return x_datas
   
 def setup_input_NN_image(xdf, past_step=25,fut_step=5, split=0.8):
-'''
-this function the time serie of the index price 
-and generate the random dataset with split value from the whole time serie
-X is a time serie of the flattened 32, 32 ,3 image list
-Y_StateClass is a time serie of future state to predict with a classification made with class_shortterm_returnfut
-Y_FutPredict is the time serie of stocke index shifted in time to be predicted
-
-we randomize the dates and retun 2 set of dataframes
-'''
+  '''
+  this function the time serie of the index price 
+  and generate the random dataset with split value from the whole time serie
+  X is a time serie of the flattened 32, 32 ,3 image list
+  Y_StateClass is a time serie of future state to predict with a classification made with class_shortterm_returnfut
+  Y_FutPredict is the time serie of stocke index shifted in time to be predicted
+  we randomize the dates and retun 2 set of dataframes
+  '''
   xdf_data=build_image_df(xdf,past_step,fut_step)
   
   tmp_data=pd.concat([xdf_data['market_state'],xdf_data['future_value'],xdf_data['df_x_image']],axis=1)
@@ -284,11 +280,10 @@ we randomize the dates and retun 2 set of dataframes
   return (X_train, Y_train_StateClass, Y_train_FutPredict), (X_test, Y_test_StateClass, Y_test_FutPredict)
 
 def change_X_df__nparray_image(df_X_train_image_flattened ):
-'''
-setup_input_NN_image returns a dataframe of flaten image for x train and xtest
-then this function will change each date into a nparray list of images with 32, 32, 3 size 
-
-'''
+  '''
+  setup_input_NN_image returns a dataframe of flaten image for x train and xtest
+  then this function will change each date into a nparray list of images with 32, 32, 3 size 
+  '''
   X_train_image=df_X_train_image_flattened
   nb_train=len(X_train_image.index)
   
@@ -297,7 +292,7 @@ then this function will change each date into a nparray list of images with 32, 
     tmp=np.array(X_train_image.iloc[i])
     tmp=tmp.reshape(32,32,3)
     x_train[i]=tmp
-return x_train
+  return x_train
 
 
 '''
@@ -305,8 +300,8 @@ COMMAND NOW FOR THE DATSET GENERATION
 '''
 
 #Recuperation from yahoo of sp500 large history
-start = datetime.datetime(1920,1,1)
-end = datetime.datetime(2020,7,31)
+start = datetime(1920,1,1)
+end = datetime(2020,7,31)
 yf.pdr_override() # <== that's all it takes :-)
 sp500 = pdr.get_data_yahoo('^GSPC', 
                            start,
@@ -328,4 +323,3 @@ Y_train_FutPredict_image.to_csv('datas/Y_train_FutPredict_image.csv')
 X_test_image.to_csv('datas/X_test_image.csv')
 Y_test_StateClass_image.to_csv('datas/Y_test_StateClass_image.csv')
 Y_test_FutPredict_image.to_csv('datas/Y_test_FutPredict_image.csv')
-
