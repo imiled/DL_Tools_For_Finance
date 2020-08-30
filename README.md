@@ -11,26 +11,27 @@ I consider here a problem of behaviour finance as most investor look throughly a
 In this project I have chosen to present 5 steps which can be taken separately as we can load save datas or models. 
 
 I worked on it in google colab you can see it in the following file :
-'''
 
-Transfert_Learning_Vgg16forSP500.ipynb
+```
+$ Transfert_Learning_Vgg16forSP500.ipynb
 https://colab.research.google.com/github/imiled/DL_Tools_For_Finance/blob/master/Transfert_Learning_Vgg16forSP500.ipynb
-
-'''
+```
 But it can be launched in local also using the command to get the specific packages :
-'''
+```
 pip install requirement.txt
-'''
+```
 or using this Docker command to get the appropiate environment:
-'''
+```
 xxxx
-'''
+```
+
 Now for each step can be taken independently as we are saving loading datas and model at each time.
 
 ## Generate Dataset of the Image and the Future maket state
-'''
+```
 python3 step1_generate_dataset_IndexImage.py
-'''
+```
+
 In this part we are generating the training and testing dataset.
 First we download the historical prices of the sp500 from 1927 to 31 July 2020 and built the image of 15 days historical graph also we get the 5 days future price evolution of the sp500. 
 From the future price evolution, we calculate a future state which can be splitted in 6 classes :
@@ -52,17 +53,19 @@ Please note that:
 2. The calculation of the dataset can take more than 6 hours of calulation as the code is not optimized so far, we can quickly implement parallel computing and rapid image setup instead of using matplotlib library
 
 ## Loading training datas
-'''
+```
 python3 step2_loadingtrainingdatas.py 
-'''
+```
+
 This part is for loading the training dataset as it is better to generate it once for all in step 1 because of it time consuming process.
 
 This part also configure back the X_train datas from dataframe based on columns to a (32,32,3) np. array for the input of the model 
 
 ## Build up of the VGGsp500 model and train
-'''
+```
 python3 step3_vgg_transfert_modelandtraining.py
-'''
+```
+
 In this part we suppose that we have the training dataset taken from step 2.
 We use a Transfert model for vgg16 and some other layers.
 we use for this example a categorical_crossentropy loss and rmsprop optimizer.
@@ -72,16 +75,16 @@ We train and save the model, please refer to XX to see the convergence of the mo
 We have 14.7M parameters and 66k trainable parametres. the size of training input is 571M only for the image not including rolling volatility, moving average etc
 
 ## Evaluate the VGGsp500
-'''
+```
 python3 step4_evaluate_vggsp500_model.py
-'''
+```
 This part will evaluate the model with the testing dataset that we generated in first step.
 We show the accuracy, the confusion matrix and the classification report 
 
 ## Guess future market state from random image
-'''
- step5_guess_future_marketstate_from_image.py
-'''
+```
+python3 step5_guess_future_marketstate_from_image.py
+```
 Take an image of an historical graph from a market webpage like investing.com  and save it to the ImageM/ folder with name image1.PNG or you can change the value of image_path to the link you need.
 
 This execution tell us which market state in the future is the best representative.
