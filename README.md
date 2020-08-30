@@ -1,9 +1,9 @@
 # TFM Introduction Deep Learning Tools For Finance 
 ## Application to Transfert Learning for Technical analysis
 
-This project contains the deep learning tools putting in practice to financial area. There is a notebook FinanceData_ML_Clean.ipynb which is my personal ongoing walkthrough for Deep learning application in Finance. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://github.com/imiled/DL_Tools_For_Finance/blob/master/MainNotebook/FinanceData_ML_Clean.ipynb)
+This project contains the deep learning tools putting in practice to financial area. There is a notebook FinanceData_ML_Clean.ipynb which is my personal ongoing walkthrough so far for Deep learning application in Finance. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://github.com/imiled/DL_Tools_For_Finance/blob/master/MainNotebook/FinanceData_ML_Clean.ipynb)
 
-The notebook is not complete so far like RL and some part need more fine tunning as the training of the models or optimisation of the code. But the objective of this workbook is to use it as a reference methodology for more specific studies and update it when one of the specific problem is completed. 
+The notebook is not complete like RL and some part need more fine tunning as the training of the models or optimisation of the code. But the objective of this workbook is to use it as a reference methodology for more specific studies and update it when one of the specific problem is completed.
 
 At the same time for this TFM, I focused  on applying CNN Transfert learning to an image of the sp500 technical graph image. The objective is to get a complete dataset a trained model based on vgg16 infrastucture, the model evaluation and last point for any image of a stock evolution we have a tool that tell us if we would rather buy or sell.
 
