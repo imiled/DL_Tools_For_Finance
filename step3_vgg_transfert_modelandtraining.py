@@ -1,4 +1,3 @@
-
 import numpy as np
 import pylab as plt
 import pandas as pd
@@ -37,7 +36,6 @@ vgg_model.summary()
 #In our example we need to y into categorical as it has 6 categories
 nb_classes=6
 y_train = np_utils.to_categorical(y_train, nb_classes)
-y_test = np_utils.to_categorical(y_test, nb_classes)
 
 ##Transfert model from vgg
 transfer_model = Sequential()
@@ -60,5 +58,3 @@ history = transfer_model.fit(x_train, y_train, \
 
 # Saving themodel
 transfer_model.save('model/vggforsp500.h5')
-
-
