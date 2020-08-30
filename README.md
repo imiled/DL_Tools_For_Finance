@@ -53,23 +53,16 @@ Please note that:
 1. We can increase the dataset taking into account the evolution very liquid stocks or other indices as long as we have very high the liquidity and number of participants 
 2. The calculation of the dataset can take more than 6 hours of calulation as the code is not optimized so far, we can quickly implement parallel computing and rapid image setup instead of using matplotlib library
 
-## Loading training datas
+## Loading training datas and Build up of the VGGsp500 model and train
 ```
 python3 step2_loadingtrainingdatas.py 
 ```
 
 This part is for loading the training dataset as it is better to generate it once for all in step 1 because of it time consuming process.
-
 This part also configure back the X_train datas from dataframe based on columns to a (32,32,3) np. array for the input of the model 
 
-## Build up of the VGGsp500 model and train
-```
-python3 step3_vgg_transfert_modelandtraining.py
-```
-
-In this part we suppose that we have the training dataset taken from step 2.
-We use a Transfert model for vgg16 and some other layers.
-we use for this example a categorical_crossentropy loss and rmsprop optimizer.
+Then we apply the Transfert model methodology with vgg16 and some other layers.
+We use for this example a categorical_crossentropy loss and rmsprop optimizer.
 This part can be fined tuned for each financial index or stock index (layers, optimmizer, metrics, dropout) but in this case we introduced a simplier case.
 We train and save the model, please refer to XX to see the convergence of the model.
 
