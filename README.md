@@ -19,7 +19,7 @@ https://colab.research.google.com/github/imiled/DL_Tools_For_Finance/blob/master
 ```
 But it can be launched in local also using the command to get the specific packages :
 ```
-pip install requirement.txt
+pip install -r requirement.txt
 ```
 or using this Docker command to get the appropiate environment:
 ```
