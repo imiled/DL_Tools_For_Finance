@@ -35,4 +35,4 @@ df_result=pd.DataFrame((Y_pred))
 df_result.columns=target_state
 df_result.index=[image_path, image_path+'1']
 print ("for ",image_path, "the best result is ", target_state[int(y_pred[0])] )
-df_result
+print(df_result)
