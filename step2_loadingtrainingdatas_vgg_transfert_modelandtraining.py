@@ -176,4 +176,4 @@ tf.keras.utils.plot_model(transfer_model)
 transfer_model.summary()
 
 #Display Tensorboard
-%tensorboard --logdir logs
+#%tensorboard --logdir logs
