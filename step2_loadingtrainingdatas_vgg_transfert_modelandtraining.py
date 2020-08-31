@@ -1,7 +1,7 @@
-
 import numpy as np
 import pylab as plt
 import pandas as pd
+import tensorflow as tf
 
 from keras.utils import np_utils
 from keras.models import Sequential
@@ -13,7 +13,6 @@ from keras.callbacks import ModelCheckpoint
 
 '''
 PARAMETERS to change so as to improve the training
-
 '''
 
 #We can modify batch size and epochs to adjust improve the training
@@ -37,7 +36,7 @@ vggsp500loss='categorical_crossentropy'
 
 ##https://keras.io/api/optimizers/
 vggsp500optimizer_name='adam'
-vggsp500optimizer=keras.optimizers.Adam(learning_rate=vggsp500_learning_rate)   
+vggsp500optimizer=tf.keras.optimizers.Adam(learning_rate=vggsp500_learning_rate)   
  
 ##https://keras.io/api/metrics/
 vggsp500metrics=['accuracy']                                           
@@ -45,7 +44,6 @@ vggsp500metrics=['accuracy']
 
 '''
 UTILITY FUNCTIONS
-
 '''
 
 def change_X_df__nparray_image(df_X_train_image_flattened ):
@@ -152,10 +150,6 @@ checkpoint = ModelCheckpoint("model/best_model"+vggsp500loss+"_"+vggsp500optimiz
                                 monitor='loss', verbose=1, \
                                 save_best_only=True, mode='auto', period=1)
 
-
-# Define the Keras TensorBoard callback.
-logdir="logs/fit/" + datetime.now().strftime("%Y%m%d-%H%M%S")
-
 ##Fitting the model on the train data and labels.
 history = transfer_model.fit(x_train, y_train, \
                               batch_size=batch_size, epochs=epochs, \
@@ -163,7 +157,7 @@ history = transfer_model.fit(x_train, y_train, \
                               callbacks=[checkpoint])
 
 # Saving themodel
-transfer_model.save('model/vggforsp500.h5')
+transfer_model.save("model/"+datetime.now().strftime("%Y%m%d-%H%M%S")+"vggforsp500.h5")
 
 #Display the graph of the model
 tf.keras.utils.plot_model(transfer_model)
