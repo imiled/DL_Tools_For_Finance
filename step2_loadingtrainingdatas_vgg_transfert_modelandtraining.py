@@ -10,6 +10,7 @@ from keras.layers import Dense, Flatten, Conv2D, MaxPooling2D
 from keras.layers import Dropout, Flatten, GlobalAveragePooling2D
 from keras.optimizers import Adam
 from keras.callbacks import ModelCheckpoint
+from datetime import datetime
 
 '''
 PARAMETERS to change so as to improve the training
