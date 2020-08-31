@@ -17,11 +17,30 @@ PARAMETERS to change so as to improve the training
 '''
 
 #We can modify batch size and epochs to adjust improve the training
-batch_size=32
+batch_size=100
 epochs=50
-vggsp500loss='categorical_crossentropy'  ##https://keras.io/api/losses/
-vggsp500optimizer='rmsprop'             ##https://keras.io/api/optimizers/
-vggsp500metrics=['accuracy']            ##https://keras.io/api/metrics/
+vggsp500_learning_rate=0.1
+
+#Use of exponential decay for learning rate
+#https://keras.io/api/optimizers/learning_rate_schedules/exponential_decay/
+
+initial_learning_rate = 0.1
+lr_schedule = tf.keras.optimizers.schedules.ExponentialDecay(
+    initial_learning_rate,
+    decay_steps=10000,
+    decay_rate=0.96,
+    staircase=True)
+
+##https://keras.io/api/losses/
+vggsp500loss='categorical_crossentropy'                                 
+
+##https://keras.io/api/optimizers/
+vggsp500optimizer_name='adam'
+vggsp500optimizer=keras.optimizers.Adam(learning_rate=vggsp500_learning_rate)   
+ 
+##https://keras.io/api/metrics/
+vggsp500metrics=['accuracy']           
+
 '''
 UTILITY FUNCTIONS
 
@@ -124,7 +143,7 @@ transfer_model.compile(loss=vggsp500loss, optimizer=vggsp500optimizer,
               metrics=vggsp500metrics)
 
 ##Saving the best model for each parameters
-checkpoint = ModelCheckpoint("model/best_model"+vggsp500loss+"_"+vggsp500optimizer+"_"+batch_size.hdf5", \
+checkpoint = ModelCheckpoint("model/best_model"+vggsp500loss+"_"+vggsp500optimizer_name+"_Batch"+str(batch_size)+"_LR"+str(initial_learning_rate)+".hdf5", 
                                 monitor='loss', verbose=1, \
                                 save_best_only=True, mode='auto', period=1)
 
@@ -133,6 +152,12 @@ history = transfer_model.fit(x_train, y_train, \
                               batch_size=batch_size, epochs=epochs, \
                               validation_split=0.2, verbose=1, shuffle=True, \
                               callbacks=[checkpoint])
+
+#Display the graph of the model
+tf.keras.utils.plot_model(transfer_model)
+
+##Display summary of neural network
+transfer_model.summary()
 
 # Saving themodel
 transfer_model.save('model/vggforsp500.h5')
