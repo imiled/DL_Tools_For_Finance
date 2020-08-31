@@ -25,10 +25,11 @@ vggsp500_learning_rate=0.1
 #https://keras.io/api/optimizers/learning_rate_schedules/exponential_decay/
 
 initial_learning_rate = 0.1
+vggsp500_decay_rate=0.99
 lr_schedule = tf.keras.optimizers.schedules.ExponentialDecay(
     initial_learning_rate,
     decay_steps=10000,
-    decay_rate=0.96,
+    decay_rate=vggsp500_decay_rate,
     staircase=True)
 
 ##https://keras.io/api/losses/
@@ -39,7 +40,8 @@ vggsp500optimizer_name='adam'
 vggsp500optimizer=keras.optimizers.Adam(learning_rate=vggsp500_learning_rate)   
  
 ##https://keras.io/api/metrics/
-vggsp500metrics=['accuracy']           
+vggsp500metrics=['accuracy']                                           
+       
 
 '''
 UTILITY FUNCTIONS
@@ -104,6 +106,9 @@ y_train=np.array(Y_train_StateClass_image)
 
 
 #At this stage we have x and y to train the model
+#If some 
+
+
 
 '''
 PART 3 VGGSP500 TRAINING AND SAVING
@@ -136,22 +141,33 @@ transfer_model.add(Dense(128, activation='relu'))
 transfer_model.add(Dropout(0.2))
 transfer_model.add(Dense(6, activation='softmax'))
 
-##Display summary of neural network
-transfer_model.summary()
+
 
 transfer_model.compile(loss=vggsp500loss, optimizer=vggsp500optimizer,
               metrics=vggsp500metrics)
 
 ##Saving the best model for each parameters
-checkpoint = ModelCheckpoint("model/best_model"+vggsp500loss+"_"+vggsp500optimizer_name+"_Batch"+str(batch_size)+"_LR"+str(initial_learning_rate)+".hdf5", 
+checkpoint = ModelCheckpoint("model/best_model"+vggsp500loss+"_"+vggsp500optimizer_name+"_Batch"+\
+                             str(batch_size)+"_LR"+str(initial_learning_rate)+"_"+str(vggsp500_decay_rate)+".hdf5", \
                                 monitor='loss', verbose=1, \
                                 save_best_only=True, mode='auto', period=1)
+
+# Load the TensorBoard notebook extension.
+%load_ext tensorboard
+!rm -rf ./logs/ 
+
+ # Define the Keras TensorBoard callback.
+logdir="logs/fit/" + datetime.now().strftime("%Y%m%d-%H%M%S")
+tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=logdir, histogram_freq=1)
 
 ##Fitting the model on the train data and labels.
 history = transfer_model.fit(x_train, y_train, \
                               batch_size=batch_size, epochs=epochs, \
                               validation_split=0.2, verbose=1, shuffle=True, \
-                              callbacks=[checkpoint])
+                              callbacks=[checkpoint, tensorboard_callback])
+
+# Saving themodel
+transfer_model.save('model/vggforsp500.h5')
 
 #Display the graph of the model
 tf.keras.utils.plot_model(transfer_model)
@@ -159,5 +175,5 @@ tf.keras.utils.plot_model(transfer_model)
 ##Display summary of neural network
 transfer_model.summary()
 
-# Saving themodel
-transfer_model.save('model/vggforsp500.h5')
+#Display Tensorboard
+%tensorboard --logdir logs
