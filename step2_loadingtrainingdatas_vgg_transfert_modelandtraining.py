@@ -152,19 +152,15 @@ checkpoint = ModelCheckpoint("model/best_model"+vggsp500loss+"_"+vggsp500optimiz
                                 monitor='loss', verbose=1, \
                                 save_best_only=True, mode='auto', period=1)
 
-# Load the TensorBoard notebook extension.
-%load_ext tensorboard
-!rm -rf ./logs/ 
 
- # Define the Keras TensorBoard callback.
+# Define the Keras TensorBoard callback.
 logdir="logs/fit/" + datetime.now().strftime("%Y%m%d-%H%M%S")
-tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=logdir, histogram_freq=1)
 
 ##Fitting the model on the train data and labels.
 history = transfer_model.fit(x_train, y_train, \
                               batch_size=batch_size, epochs=epochs, \
                               validation_split=0.2, verbose=1, shuffle=True, \
-                              callbacks=[checkpoint, tensorboard_callback])
+                              callbacks=[checkpoint])
 
 # Saving themodel
 transfer_model.save('model/vggforsp500.h5')
@@ -174,6 +170,3 @@ tf.keras.utils.plot_model(transfer_model)
 
 ##Display summary of neural network
 transfer_model.summary()
-
-#Display Tensorboard
-#%tensorboard --logdir logs
