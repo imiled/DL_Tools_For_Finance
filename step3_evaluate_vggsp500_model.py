@@ -84,7 +84,7 @@ y= np.argmax(y_test_m,axis=1)
 
 print('Confusion Matrix')
 
-target_state = ['SS', 'SN', 'N','NB','BB']
+target_state = ['SS', 'SN', 'N','NB','BB','Error']
 
 def statetostring(x):
   return target_state[int(x)]
