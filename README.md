@@ -1,7 +1,11 @@
 # TFM Introduction Deep Learning Tools For Finance 
 ## Application to Transfert Learning for Technical analysis
 
-I focused  on applying CNN Transfert learning to an image of the sp500 technical graph image. The objective is to get a complete dataset and a trained model based on vgg16 infrastucture. Moreover we analyse the model efficiency and last point for any image of a stock price historical graph we have a tool that tell us if we would rather buy, sell or hold.
+I focused in this project to apply a Transfert learning nmethodology of CNN to an image of the sp500 technical graph as an image. 
+
+The objective is first to get a complete dataset, then a trained model based on vgg16 infrastucture. 
+
+In addition we analyse the model efficiency and last point for any image of a stock price historical graph we have a tool that tell us if we would rather buy, sell or hold.
 
 You can find also in the repertory the TFM report. 
 (https://github.com/imiled/DL_Tools_For_Finance/raw/master/TFM%20Imiled%202019-2020_Deep%20Learning%20application%20to%20Finance.docx)
