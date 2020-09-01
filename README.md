@@ -1,15 +1,13 @@
 # TFM Introduction Deep Learning Tools For Finance 
 ## Application to Transfert Learning for Technical analysis
 
-This project contains the deep learning tools putting in practice to financial area. There is a notebook FinanceData_ML_Clean.ipynb which is my personal ongoing walkthrough so far for Deep learning application in Finance. [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://github.com/imiled/DL_Tools_For_Finance/blob/master/MainNotebook/FinanceData_ML_Clean.ipynb)
+I focused  on applying CNN Transfert learning to an image of the sp500 technical graph image. The objective is to get a complete dataset and a trained model based on vgg16 infrastucture. Moreover we analyse the model efficiency and last point for any image of a stock price historical graph we have a tool that tell us if we would rather buy, sell or hold.
 
-The notebook is not complete like RL and some part need more fine tunning as the training of the models or optimisation of the code. But the objective of this workbook is to use it as a reference methodology for more specific studies and update it when one of the specific problem is completed.
-
-At the same time for this TFM, I focused  on applying CNN Transfert learning to an image of the sp500 technical graph image. The objective is to get a complete dataset a trained model based on vgg16 infrastucture, the model evaluation and last point for any image of a stock evolution we have a tool that tell us if we would rather buy or sell.
+You can find also in the repertory the TFM report. "TFM Imiled 2019-2020_Deep Learning application to Finance.docx"
 
 I consider here a problem of behaviour finance as most investor look throughly at those graph more than fondamental numbers and those graph can be interpretated on small horizon (minutes) or long (years) to get an estimation of its evolution. The humain will process this information deeply and the consequence of this process is the behaviour of stock market. Benjamin Graham in the "Intelligent Investor" - written in 1949 and considered as the bible of value investing - introduce the allegory of Mr. Market, meant to personify the irrationality and group-think of the stock market. As of august 2020, the value of some stocks are higher than the economy of France and Germany and some companies (Tesla) are bought at a price quite difficult to apprehend in terms of valuation fondamental and comparison to established company in Europe (Volkswagen) or Japan (Toyota). That is true, that our brain is set to always find an explanation but in this approach we' ll try to apprehend the impact of price evolution to make Mr Market more greedy or fearful.
 
-In this project I have chosen to present 5 steps which can be taken separately as we can load save datas or models. 
+In this project I have chosen to present 4 steps which can be taken separately as we can load save datas or models. 
 
 I worked on it in google colab you can see it in the following file :
 
