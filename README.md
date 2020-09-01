@@ -1,7 +1,7 @@
 # TFM Introduction Deep Learning Tools For Finance 
 ## Application to Transfert Learning for Technical analysis
 
-I focused in this project to apply a Transfert learning nmethodology of CNN to an image of the sp500 technical graph as an image. 
+I focused in this project to apply a Transfert learning methodology of CNN to an image of the sp500 technical graph as an image. 
 
 The objective is first to get a complete dataset, then a trained model based on vgg16 infrastucture. 
 
