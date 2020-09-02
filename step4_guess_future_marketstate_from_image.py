@@ -13,7 +13,7 @@ from keras.preprocessing.image import ImageDataGenerator
 trained_model_path='model/vggforsp500.h5'
 
 #path for the image taken by the user
-image_path='ImageM/image1.PNG'
+image_path =input("Enter the path of the image to check futur state:\n")
 
 #Load the image and resize it to 32x32 and taking off the transparency
 load_img_rz = np.array(Image.open(image_path).resize((32,32)))
