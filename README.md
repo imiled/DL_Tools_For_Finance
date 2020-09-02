@@ -47,7 +47,7 @@ The objective is to get the following files which represent a dataframe in the d
 
 *Y_test_StateClass.csv, Y_train_StateClass.csv* a 1 column time serie dataframe of the future state value betwwen -1 to 4
 
-We generate also the following files but we won´t use it in this project - more fore RNN & price prediction - *Y_test_FutPredict.csv Y_train_FutPredict.csv*
+We generate also the following files but we won´t use it in this project - more for RNN & price prediction - *Y_test_FutPredict.csv Y_train_FutPredict.csv*
 
 the testing and training time serie dataset are shuffled by the date of reference with a split number of 0.8
 
