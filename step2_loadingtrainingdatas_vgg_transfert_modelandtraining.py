@@ -2,6 +2,7 @@ import numpy as np
 import pylab as plt
 import pandas as pd
 import tensorflow as tf
+import keras as keras
 
 from keras.utils import np_utils
 from keras.models import Sequential
@@ -26,6 +27,7 @@ vggsp500_learning_rate=0.1
 
 initial_learning_rate = 0.1
 vggsp500_decay_rate=0.99
+
 lr_schedule = tf.keras.optimizers.schedules.ExponentialDecay(
     initial_learning_rate,
     decay_steps=10000,
@@ -37,8 +39,9 @@ vggsp500loss='categorical_crossentropy'
 
 ##https://keras.io/api/optimizers/
 vggsp500optimizer_name='adam'
-vggsp500optimizer=tf.keras.optimizers.Adam(learning_rate=vggsp500_learning_rate)   
- 
+#vggsp500optimizer=tf.keras.optimizers.Adam(learning_rate=vggsp500_learning_rate)   
+vggsp500optimizer=keras.optimizers.Adam(learning_rate=vggsp500_learning_rate)   
+
 ##https://keras.io/api/metrics/
 vggsp500metrics=['accuracy']                                           
        
@@ -161,7 +164,7 @@ history = transfer_model.fit(x_train, y_train, \
 transfer_model.save("model/"+datetime.now().strftime("%Y%m%d-%H%M%S")+"vggforsp500.h5")
 
 #Display the graph of the model
-tf.keras.utils.plot_model(transfer_model)
+keras.utils.plot_model(transfer_model)
 
 ##Display summary of neural network
 transfer_model.summary()

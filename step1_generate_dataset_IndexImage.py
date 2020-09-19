@@ -4,7 +4,7 @@ import pandas as pd
 import bs4 as bs
 import requests
 import yfinance as yf
-import fix_yahoo_finance as yf
+#import fix_yahoo_finance as yf
 import datetime
 import io
 import cv2
