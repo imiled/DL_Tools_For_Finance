@@ -65,7 +65,7 @@ This part also configure back the X_train datas from dataframe based on columns 
 
 Then we apply the Transfert model methodology with vgg16 and some other layers.
 We use for this example a categorical_crossentropy loss and rmsprop optimizer.
-This part can be fined tuned for each financial index or stock index (layers, optimmizer, metrics, dropout) but in this case we introduced a simplier case.
+This part can be fined tuned for each financial index or stock index (layers, optimizer, metrics, dropout) but in this case we introduced a simplier case.
 We train and save the model, please refer to XX to see the convergence of the model.
 
 We have 14.7M parameters and 66k trainable parametres. the size of training input is 571M only for the image not including rolling volatility, moving average etc
@@ -83,7 +83,7 @@ We show the accuracy, the confusion matrix and the classification report
 python3 step4_guess_future_marketstate_from_image.py
 ```
 
-Take an image of an historical graph from a market webpage like investing.com, crop the image to only fit the graph and save it to the ImageM/ folder with name image1.PNG or you can change the value of image_path to the link you need.
+Take an image of an historical graph from a market webpage like investing.com, crop the image to only fit the graph and save it to the ImageM/ folder for example with name image1.PNG or give the full path of the image when asked.
 
 This execution tell us which market state in the future is the best representative.
 
