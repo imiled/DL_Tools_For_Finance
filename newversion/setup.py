@@ -4,16 +4,19 @@ import pandas as pd
 import bs4 as bs
 import requests
 import yfinance as yf
+import fix_yahoo_finance as yf
 import datetime
 import io
 import cv2
 import skimage
 import datetime
+import os.path as path
 from PIL import Image
 from pandas_datareader import data as pdr
 from skimage import measure
 from skimage.measure import block_reduce
 from datetime import datetime
+from tempfile import mkdtemp
 
 '''
 Functions to be used for data generation 
@@ -152,7 +155,9 @@ def build_image_df(xdf, past_step,fut_step) :
   flatten_image=np.reshape(tmpimage,(1,-1))
   colname_d_x_image_flattened = ['Image Col'+str(j) for j in range(flatten_image.shape[1])]
 
-  np_x_image=np.zeros((len(df_stockvaluecorrected.index),flatten_image.shape[1]))
+  #write frile in drive instead of RAMmemory
+  filename = path.join(mkdtemp(), 'np_x_image.dat')
+  np_x_image=np.memmap(filename,  dtype='float32', mode='w+', shape=(len(df_stockvaluecorrected.index),flatten_image.shape[1]))
   
   for i in range(len(df_stockvaluecorrected.index)):
         yfut=df_Fut_value.iloc[i]
@@ -208,35 +213,83 @@ def build_image_df(xdf, past_step,fut_step) :
 
   return df_data
 
-def build_image_clean(stockindex_ohlcv, ret_image_size=(32,32,3), idate=10, pastlag=32):
+
+
+def build_image_optimfig(fig, stockindex, idate=10, pastlag=10, futlag=3):
   '''
-  TO BE COMPLETED
-  NOT USED NOW
-  
-  change one date into an array (32,32,3)
-  Each absciss pixel is one day
-  in ordinate the min value of ohlc shall be 0 (volume is tabled on the third image) 
-  in ordinate the max value of ohlc shall be  (volume is tabled on the third image) 
-  1st image: 32 x32
-    based on each day we place the open and close point
-    in ordinate int (255 * price /max ohlc)
-    with value of  255 for close and 127 for open
-  2nd image: 32 x32
-    based on each day we place the high low point 
-    in ordinate int (255 * price /max ohlc)
-    with 64 for high and 32 for low
-  3rd image: 32 x32
-    each column value is a equal to int 255* volume of day / volume max period)
+  #version of returning image from a data frame index
+  #using the pastlag as range for the graph
+  #ising idate as a starting point
+  #return a (32,32,3) np array
+  #this one is optimisng the use of ram 
   '''
+
   #number of days to consider for translate
-  tsindexstock=stockindex_ohlcv.iloc[(idate-pastlag):idate]
-  valmax=np.max(np.array(tsindexstock[tsindexstock.columns[:-1]]))
-  valmin=np.min(np.array(tsindexstock[tsindexstock.columns[:-1]]))
-  vol=tsindexstock[tsindexstock.columns[-1]]
+  sp500close=stockindex
+  x_datas=[]
+  x_datas=np.zeros((255,255,3))
+  i=idate
   
-  x_datas=np.zeros(ret_image_size)
+  plt.plot(sp500close[(i-pastlag):i])
+  plot_img_np = get_img_from_fig(fig)
+  #x_tmp= skimage.measure.block_reduce(plot_img_np[90:620,140:970], (18,28,1), np.mean)
+  x_tmp= skimage.measure.block_reduce(plot_img_np[90:620,140:970], (2,3,1), np.mean)
+  (x_datas[:])[:,:][:]=(x_tmp[5:-5])[:,11:-11][:]
+    
+  x_datas=x_datas[:,:,0]/255
+  return x_datas     
+
+def setup_input_NN_image(xdf, past_step=25,fut_step=5, split=0.8):
+  '''
+  this function the time serie of the index price 
+  and generate the random dataset with split value from the whole time serie
+  X is a time serie of the flattened 32, 32 ,3 image list
+  Y_StateClass is a time serie of future state to predict with a classification made with class_shortterm_returnfut
+  Y_FutPredict is the time serie of stocke index shifted in time to be predicted
+  we randomize the dates and retun 2 set of dataframes
+  '''
+  xdf_data=build_image_df(xdf,past_step,fut_step)
   
-  return x_datas
+  tmp_data=pd.concat([xdf_data['market_state'],xdf_data['future_value'],xdf_data['df_x_image']],axis=1)
+  tmp_data=tmp_data.dropna()
+
+  Y_StateClass= tmp_data['market_state']
+  Y_FutPredict= tmp_data['future_value']  
+  X=tmp_data.drop(columns=['market_state','future_value'])
+
+  nb_dates=len(Y_StateClass.index)
+  rng = np.random.default_rng()
+  list_shuffle = np.arange(nb_dates)
+  rng.shuffle(list_shuffle)
+  split_index=int(split*nb_dates)
+    
+  train_split=list_shuffle[:split_index]
+  test_split=list_shuffle[(split_index+1):]
+
+  X_train=(X.iloc[train_split])
+  Y_train_StateClass=(Y_StateClass.iloc[train_split])
+  Y_train_FutPredict=(Y_FutPredict.iloc[train_split])
+
+  X_test=(X.iloc[test_split])
+  Y_test_StateClass=(Y_StateClass.iloc[test_split])
+  Y_test_FutPredict=(Y_FutPredict.iloc[test_split])
+
+  return (X_train, Y_train_StateClass, Y_train_FutPredict), (X_test, Y_test_StateClass, Y_test_FutPredict)
+
+def change_X_df__nparray_image(df_X_train_image_flattened ):
+  '''
+  setup_input_NN_image returns a dataframe of flaten image for x train and xtest
+  then this function will change each date into a nparray list of images with 32, 32, 3 size 
+  '''
+  X_train_image=df_X_train_image_flattened
+  nb_train=len(X_train_image.index)
+  
+  x_train=np.zeros((nb_train,255,255,1))
+  for i in range(nb_train):
+    tmp=np.array(X_train_image.iloc[i])
+    tmp=tmp.reshape(255,255,1)
+    x_train[i]=tmp
+  return x_train
   
 def setup_input_NN_image(xdf, past_step=25,fut_step=5, split=0.8):
   '''
