@@ -4,7 +4,6 @@ import pandas as pd
 import bs4 as bs
 import requests
 import yfinance as yf
-import fix_yahoo_finance as yf
 import datetime
 import io
 import cv2
@@ -291,7 +290,7 @@ def change_X_df__nparray_image(df_X_train_image_flattened ):
     x_train[i]=tmp
   return x_train
   
-def setup_input_NN_image(xdf, past_step=25,fut_step=5, split=0.8):
+def setup_input_NN_image(xdf, past_step=25,fut_step=5, split=0.8, is_shuffle=False):
   '''
   this function the time serie of the index price 
   and generate the random dataset with split value from the whole time serie
@@ -310,13 +309,13 @@ def setup_input_NN_image(xdf, past_step=25,fut_step=5, split=0.8):
   X=tmp_data.drop(columns=['market_state','future_value'])
 
   nb_dates=len(Y_StateClass.index)
-  rng = np.random.default_rng()
-  list_shuffle = np.arange(nb_dates)
-  rng.shuffle(list_shuffle)
   split_index=int(split*nb_dates)
-    
+  list_shuffle = np.arange(nb_dates)
+  rng = np.random.default_rng()
+
+  if (is_shuffle==True) : rng.shuffle(list_shuffle)
   train_split=list_shuffle[:split_index]
-  test_split=list_shuffle[(split_index+1):]
+  test_split=list_shuffle[(split_index+1):]		
 
   X_train=(X.iloc[train_split])
   Y_train_StateClass=(Y_StateClass.iloc[train_split])
@@ -367,92 +366,93 @@ def build_image_optimfig(fig, stockindex, idate=10, pastlag=10, futlag=3):
   x_datas=x_datas[:,:,0]/255
   return x_datas     
 
+def main():
+	'''
+	COMMAND NOW FOR DOWNLOADING HISTORICAL DATAS FOR SP500
+	'''
 
-'''
-COMMAND NOW FOR DOWNLOADING HISTORICAL DATAS FOR SP500
-'''
+	#Recuperation from yahoo of sp500 large history
+	start = datetime(1920,1,1)
+	end = datetime(2020,7,31)
+	yf.pdr_override() # <== that's all it takes :-)
+	sp500 = pdr.get_data_yahoo('^GSPC', 
+							   start,
+								 end)
 
-#Recuperation from yahoo of sp500 large history
-start = datetime(1920,1,1)
-end = datetime(2020,7,31)
-yf.pdr_override() # <== that's all it takes :-)
-sp500 = pdr.get_data_yahoo('^GSPC', 
-                           start,
-                             end)
+	#generate the dataset it can take 6 - 8 hours
+	#Need to be optimzed with more time
+	testsp500=(sp500['Close'])[:11999]
 
-#generate the dataset it can take 6 - 8 hours
-#Need to be optimzed with more time
-testsp500=(sp500['Close'])[:]
+	_ , (X_test_image, Y_test_StateClass_image, Y_test_FutPredict_image) = setup_input_NN_image(testsp500, split=0)
 
-_ , (X_test_image, Y_test_StateClass_image, Y_test_FutPredict_image) = setup_input_NN_image(testsp500, split=0)
+	#classification of the states to get a equally distributed dataset
+	y_StateClass_image=Y_test_StateClass_image
+	x_image=X_test_image
+	y_futurepredict_image=Y_test_FutPredict_image
+	#group by y state the x_image 
+	#count the min of the of each state 
+	#construct a directory for each block like cat, dog etc
 
-#classification of the states to get a equally distributed dataset
-y_StateClass_image=Y_test_StateClass_image
-x_image=X_test_image
-y_futurepredict_image=Y_test_FutPredict_image
-#group by y state the x_image 
-#count the min of the of each state 
-#construct a directory for each block like cat, dog etc
+	non_monotonic_index =pd.Index(list(y_StateClass_image))
 
-non_monotonic_index =pd.Index(list(y_StateClass_image))
+	def localize_index_from_state(non_monotonic_index, state=0):
+	  state_loc=non_monotonic_index.get_loc(state)
+	  return [i for i in range(0,state_loc.size) if state_loc[i]]
 
-def localize_index_from_state(non_monotonic_index, state=0):
-  state_loc=non_monotonic_index.get_loc(state)
-  return [i for i in range(0,state_loc.size) if state_loc[i]]
+	try : 
+	  state_error_loc=localize_index_from_state(non_monotonic_index,-1) 
+	  y_StateClass_image_error =y_StateClass_image.iloc[state_error_loc]
+	  x_image_State_is_error =x_image.iloc[state_error_loc].head()
+	except :
+	  print("No value for error state")
 
-try : 
-  state_error_loc=localize_index_from_state(non_monotonic_index,-1) 
-  y_StateClass_image_error =y_StateClass_image.iloc[state_error_loc]
-  x_image_State_is_error =x_image.iloc[state_error_loc].head()
-except :
-  print("No value for error state")
+	state_zero_loc=localize_index_from_state(non_monotonic_index, 0)
+	state_one_loc=localize_index_from_state(non_monotonic_index, 1)
+	state_two_loc=localize_index_from_state(non_monotonic_index, 2)
+	state_three_loc=localize_index_from_state(non_monotonic_index, 3)
+	state_four_loc=localize_index_from_state(non_monotonic_index, 4)
 
-state_zero_loc=localize_index_from_state(non_monotonic_index, 0)
-state_one_loc=localize_index_from_state(non_monotonic_index, 1)
-state_two_loc=localize_index_from_state(non_monotonic_index, 2)
-state_three_loc=localize_index_from_state(non_monotonic_index, 3)
-state_four_loc=localize_index_from_state(non_monotonic_index, 4)
+	#Build up class for the dataset
+	y_StateClass_image_0 =y_StateClass_image.iloc[state_zero_loc]
+	y_StateClass_image_1 =y_StateClass_image.iloc[state_one_loc]
+	y_StateClass_image_2 =y_StateClass_image.iloc[state_two_loc]
+	y_StateClass_image_3 =y_StateClass_image.iloc[state_three_loc]
+	y_StateClass_image_4 =y_StateClass_image.iloc[state_four_loc]
 
-#Build up class for the dataset
-y_StateClass_image_0 =y_StateClass_image.iloc[state_zero_loc]
-y_StateClass_image_1 =y_StateClass_image.iloc[state_one_loc]
-y_StateClass_image_2 =y_StateClass_image.iloc[state_two_loc]
-y_StateClass_image_3 =y_StateClass_image.iloc[state_three_loc]
-y_StateClass_image_4 =y_StateClass_image.iloc[state_four_loc]
+	x_image_State_is_0 =x_image.iloc[state_zero_loc]
+	x_image_State_is_1 =x_image.iloc[state_one_loc]
+	x_image_State_is_2 =x_image.iloc[state_two_loc]
+	x_image_State_is_3 =x_image.iloc[state_three_loc]
+	x_image_State_is_4 =x_image.iloc[state_four_loc]
 
-x_image_State_is_0 =x_image.iloc[state_zero_loc]
-x_image_State_is_1 =x_image.iloc[state_one_loc]
-x_image_State_is_2 =x_image.iloc[state_two_loc]
-x_image_State_is_3 =x_image.iloc[state_three_loc]
-x_image_State_is_4 =x_image.iloc[state_four_loc]
+	y_futpredict_image_0 =y_futurepredict_image.iloc[state_zero_loc]
+	y_futpredict_image_1 =y_futurepredict_image.iloc[state_one_loc]
+	y_futpredict_image_2 =y_futurepredict_image.iloc[state_two_loc]
+	y_futpredict_image_3 =y_futurepredict_image.iloc[state_three_loc]
+	y_futpredict_image_4 =y_futurepredict_image.iloc[state_four_loc]
 
-y_futpredict_image_0 =y_futurepredict_image.iloc[state_zero_loc]
-y_futpredict_image_1 =y_futurepredict_image.iloc[state_one_loc]
-y_futpredict_image_2 =y_futurepredict_image.iloc[state_two_loc]
-y_futpredict_image_3 =y_futurepredict_image.iloc[state_three_loc]
-y_futpredict_image_4 =y_futurepredict_image.iloc[state_four_loc]
+	#print size of each dataset
+	print("dataset class 0 size is :",y_StateClass_image_0.size, "and for x ", x_image_State_is_0.index.size)
+	print("dataset class 1 size is :",y_StateClass_image_1.size, "and for x ", x_image_State_is_1.index.size)
+	print("dataset class 2 size is :",y_StateClass_image_2.size, "and for x ", x_image_State_is_2.index.size)
+	print("dataset class 3 size is :",y_StateClass_image_3.size, "and for x ", x_image_State_is_3.index.size)
+	print("dataset class 4 size is :",y_StateClass_image_4.size, "and for x ", x_image_State_is_4.index.size)
 
-#print size of each dataset
-print("dataset class 0 size is :",y_StateClass_image_0.size, "and for x ", x_image_State_is_0.index.size)
-print("dataset class 1 size is :",y_StateClass_image_1.size, "and for x ", x_image_State_is_1.index.size)
-print("dataset class 2 size is :",y_StateClass_image_2.size, "and for x ", x_image_State_is_2.index.size)
-print("dataset class 3 size is :",y_StateClass_image_3.size, "and for x ", x_image_State_is_3.index.size)
-print("dataset class 4 size is :",y_StateClass_image_4.size, "and for x ", x_image_State_is_4.index.size)
+	#write dataset for each set  in corresponding folder
+	def print_data_class(state=0,write_path='datas3/state_is_') :
+	  state_zero_loc=localize_index_from_state(non_monotonic_index, state)
+	  y_StateClass_image_0 =y_StateClass_image.iloc[state_zero_loc]
+	  x_image_State_is_0 =x_image.iloc[state_zero_loc]
+	  y_futpredict_image_0 =y_futurepredict_image.iloc[state_zero_loc]
+	  y_StateClass_image_0.to_csv(write_path+str(state)+'/y_stateclass.csv')
+	  x_image_State_is_0.to_csv(write_path+str(state)+'/x_image.csv')
+	  y_futpredict_image_0.to_csv(write_path+str(state)+'/y_future.csv')
 
-#write dataset for each set  in corresponding folder
-def print_data_class(state=0,write_path='datas/state_is_') :
-  state_zero_loc=localize_index_from_state(non_monotonic_index, state)
-  y_StateClass_image_0 =y_StateClass_image.iloc[state_zero_loc]
-  x_image_State_is_0 =x_image.iloc[state_zero_loc]
-  y_futpredict_image_0 =y_futurepredict_image.iloc[state_zero_loc]
-  y_StateClass_image_0.to_csv(write_path+str(state)+'/y_stateclass.csv')
-  x_image_State_is_0.to_csv(write_path+str(state)+'/x_image.csv')
-  y_futpredict_image_0.to_csv(write_path+str(state)+'/y_future.csv')
+	print_data_class(state=0)
+	print_data_class(state=1)
+	print_data_class(state=2)
+	print_data_class(state=3)
+	print_data_class(state=4)
 
-print_data_class(state=0)
-print_data_class(state=1)
-print_data_class(state=2)
-print_data_class(state=3)
-print_data_class(state=4)
-
-#we need dataset of train, validation, test 
+if __name__ == "__main__":
+    main()
