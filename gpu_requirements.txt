@@ -1,5 +1,5 @@
 #MLDL
-tensorflow==2.3.0
+tensorflow==2.5.1
 Keras==2.3.1
 #versioneer
 
